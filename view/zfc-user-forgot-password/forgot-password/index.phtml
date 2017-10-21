@@ -1,0 +1,22 @@
+<h1>I Forgot My Password</h1>
+
+<?php
+echo $this->flashMessenger()->renderCurrent();
+
+echo $this->form()->openTag($form);
+$emailElem = $this->form->get('email');
+$submitElem = $this->form->get('submit');
+?>
+
+<dl class="dl-form">
+    <dt><?php echo $this->formLabel($emailElem) ?></dt>
+    <dd><?php echo $this->formElement($emailElem) ?></dd>
+
+    <dd>
+        <?php echo $this->formElement($submitElem) ?>
+    </dd>
+</dl>
+
+<?php echo $this->form()->closeTag() ?>
+
+<a href="<?php echo $this->url('zfcuser/login') ?>">Go back</a>
