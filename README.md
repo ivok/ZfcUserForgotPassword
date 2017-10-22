@@ -12,6 +12,6 @@ return [
 
 2. Import the database table in [data/reset.sql](data/reset.sql).
 
-3. Install [config/zfcuserforgotpassword.global.php.dist](config/zfcuserforgotpassword.global.php.dist) and set up a useful sender.
+3. Install [config/zfcuserforgotpassword.global.php.dist](config/zfcuserforgotpassword.global.php.dist) (into config/autoload) and set up a useful sender.
 
 4. Finally, navigate to `/user/forgot-password'
