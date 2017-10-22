@@ -14,4 +14,4 @@ return [
 
 3. Install [config/zfcuserforgotpassword.global.php.dist](config/zfcuserforgotpassword.global.php.dist) (into config/autoload) and set up a useful sender.
 
-4. Finally, navigate to `/user/forgot-password'
+4. Finally, navigate to `/user/forgot-password`
