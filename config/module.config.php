@@ -14,6 +14,10 @@ return [
             Form\ForgotPassword::class => Form\ForgotPasswordFactory::class,
             Model\ResetPassword::class => Model\ResetPasswordFactory::class,
             Form\ResetPassword::class => Form\ResetPasswordFactory::class,
+            /**
+             * You want to override this.
+             */
+            'zfcuserforgotpassword_sender' => Sender\BlackholeFactory::class,
         ],
     ],
     'controllers' => [

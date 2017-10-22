@@ -6,7 +6,6 @@ use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use ZfcUserForgotPassword\Form\ForgotPassword as ForgotPasswordForm;
 use ZfcUserForgotPassword\Service\ForgotPassword as ForgotPasswordService;
-use ZfcUserForgotPassword\Sender\Blackhole;
 
 class ForgotPasswordFactory implements FactoryInterface {
 
@@ -16,7 +15,8 @@ class ForgotPasswordFactory implements FactoryInterface {
         return new ForgotPassword(
         $container->get('zfcuser_user_mapper'),
         $container->get(ForgotPasswordService::class),
-        $container->get(ForgotPasswordForm::class), new Blackhole
+        $container->get(ForgotPasswordForm::class),
+        $container->get('zfcuserforgotpassword_sender')
         );
     }
 
