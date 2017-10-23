@@ -5,6 +5,7 @@ namespace ZfcUserForgotPassword;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'service_manager' => [
@@ -14,6 +15,7 @@ return [
             Form\ForgotPassword::class => Form\ForgotPasswordFactory::class,
             Model\ResetPassword::class => Model\ResetPasswordFactory::class,
             Form\ResetPassword::class => Form\ResetPasswordFactory::class,
+            Options\Module::class => Options\ModuleFactory::class,
             /**
              * You want to override this.
              */
@@ -24,6 +26,14 @@ return [
         'factories' => [
             Controller\ForgotPassword::class => Controller\ForgotPasswordFactory::class,
             Controller\ResetPassword::class => Controller\ResetPasswordFactory::class,
+        ],
+    ],
+    'controller_plugins' => [
+        'factories' => [
+            Controller\Plugin\Login::class => InvokableFactory::class,
+        ],
+        'aliases' => [
+            'zufpLogin' => Controller\Plugin\Login::class,
         ],
     ],
     'doctrine' => [

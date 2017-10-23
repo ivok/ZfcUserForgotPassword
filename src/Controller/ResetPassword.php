@@ -6,10 +6,16 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Form;
 use ZfcUser\Mapper\User as UserMapper;
+use ZfcUserForgotPassword\Options\Module as ModuleOptions;
 use ZfcUserForgotPassword\Sender\SenderInterface;
 use ZfcUserForgotPassword\Service\ForgotPassword as ForgotPasswordService;
 
 class ResetPassword extends AbstractActionController {
+
+    /**
+     * @var ModuleOptions
+     */
+    protected $moduleOptions;
 
     /**
      * @var UserMapper
@@ -32,9 +38,10 @@ class ResetPassword extends AbstractActionController {
     protected $sender;
 
     public function __construct(
-    UserMapper $userMapper, ForgotPasswordService $forgotPasswordService,
-    Form $form
+    ModuleOptions $moduleOptions, UserMapper $userMapper,
+    ForgotPasswordService $forgotPasswordService, Form $form
     ) {
+        $this->moduleOptions = $moduleOptions;
         $this->userMapper = $userMapper;
         $this->forgotPasswordService = $forgotPasswordService;
         $this->form = $form;
@@ -75,6 +82,12 @@ class ResetPassword extends AbstractActionController {
             return $view;
         }
 
+        $this->flashMessenger()->setNamespace('zfcuserforgotpassword')
+        ->addMessage('Your password reset is successful.');
+
+        if ($this->moduleOptions->getAutoLogin()) {
+            return $this->zufpLogin($user->getEmail(), $model->getPassword());
+        }
         return $this->redirect()->toRoute('zfcuser/reset_password/success');
     }
 
