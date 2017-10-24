@@ -108,4 +108,10 @@ class ResetTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    public function testSetNonce() {
+        $reset = new Reset;
+        $reset->setNonce('asdf');
+        $this->assertEquals('asdf', $reset->getNonce());
+    }
+
 }
