@@ -182,7 +182,6 @@ class ForgotPasswordTest extends \PHPUnit_Extensions_Database_TestCase {
     }
 
     /**
-     * @group only
      * @dataProvider dataCreateReset
      */
     public function testCreateReset($userId, $expectedCount) {
