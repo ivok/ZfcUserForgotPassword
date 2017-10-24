@@ -3,6 +3,7 @@
 namespace ZfcUserForgotPasswordTest\Controller;
 
 use ZfcUserForgotPassword\Controller\ResetPassword as ResetPasswordController;
+use ZfcUserForgotPassword\Controller\ResetPasswordFactory;
 use ZfcUserForgotPassword\Controller\Plugin\Login;
 use ZfcUserForgotPassword\Options\Module as ModuleOptions;
 use ZfcUserForgotPassword\Service\ForgotPassword as ForgotPasswordService;
@@ -15,6 +16,7 @@ use Faker\Factory as FakerFactory;
 use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Zend\Mvc\Controller\Plugin\Redirect;
 use Zend\Mvc\Controller\Plugin\Params;
+use Zend\ServiceManager\ServiceManager;
 
 class ResetPasswordTest extends \PHPUnit_Framework_TestCase {
 
@@ -33,8 +35,17 @@ class ResetPasswordTest extends \PHPUnit_Framework_TestCase {
         $form = $this->getMock(ResetPasswordForm::class);
         $form->expects($this->any())
         ->method('getMessages')->willReturn(['error message']);
-        $this->controller = new ResetPasswordController(
-        new ModuleOptions, $userMapper, $forgotPasswordService, $form
+
+        $serviceManager = new ServiceManager;
+        $serviceManager->setService('zfcuser_user_mapper', $userMapper);
+        $serviceManager->setService(
+        ForgotPasswordService::class, $forgotPasswordService
+        );
+        $serviceManager->setService(ResetPasswordForm::class, $form);
+        $serviceManager->setService(ModuleOptions::class, new ModuleOptions);
+        $factory = new ResetPasswordFactory;
+        $this->controller = $factory(
+        $serviceManager, ResetPasswordController::class
         );
 
         $this->controller->getPluginManager()->setService(

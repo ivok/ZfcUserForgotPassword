@@ -3,6 +3,8 @@
 namespace ZfcUserForgotPasswordTest\Controller;
 
 use ZfcUserForgotPassword\Controller\ForgotPassword as ForgotPasswordController;
+use ZfcUserForgotPassword\Controller\ForgotPasswordFactory;
+use Zend\ServiceManager\ServiceManager;
 use ZfcUserForgotPassword\Service\ForgotPassword as ForgotPasswordService;
 use ZfcUserForgotPassword\Form\ForgotPassword as ForgotPasswordForm;
 use ZfcUserForgotPassword\Model\ForgotPassword as ForgotPasswordModel;
@@ -32,8 +34,17 @@ class ForgotPasswordTest extends \PHPUnit_Framework_TestCase {
         $form->expects($this->any())
         ->method('getMessages')->willReturn(['error message']);
         $sender = $this->getMock(Sender::class);
-        $this->controller = new ForgotPasswordController(
-        $userMapper, $forgotPasswordService, $form, $sender
+
+        $serviceManager = new ServiceManager;
+        $serviceManager->setService('zfcuser_user_mapper', $userMapper);
+        $serviceManager->setService(
+        ForgotPasswordService::class, $forgotPasswordService
+        );
+        $serviceManager->setService(ForgotPasswordForm::class, $form);
+        $serviceManager->setService('zfcuserforgotpassword_sender', $sender);
+        $factory = new ForgotPasswordFactory;
+        $this->controller = $factory(
+        $serviceManager, ForgotPasswordController::class
         );
 
         $this->controller->getPluginManager()->setService(
