@@ -6,8 +6,8 @@
     "keywords": [
         "zf3",
         "zfcuser",
-		"forgot",
-		"doctrine"
+        "forgot",
+        "doctrine"
     ],
     "homepage": "https://github.com/dillchuk/ZfcUserForgotPassword",
     "authors": [
