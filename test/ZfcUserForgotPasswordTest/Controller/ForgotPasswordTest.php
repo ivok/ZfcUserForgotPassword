@@ -97,8 +97,8 @@ class ForgotPasswordTest extends \PHPUnit_Framework_TestCase {
         ->method('createReset')->with($user->getId())->willReturn($reset);
 
         $redirect = $this->getMock(Redirect::class);
-        $redirect->expects($this->once())
-        ->method('toRoute')->with('zfcuser/forgot_password/success');
+        $redirect->expects($this->once())->method('toRoute')
+        ->with('zfcuser/forgot_password/success')->willReturn('redirect return');
         $pluginManager = $this->controller->getPluginManager();
         $pluginManager->setAllowOverride(true);
         $pluginManager->setService('redirect', $redirect);
@@ -112,7 +112,7 @@ class ForgotPasswordTest extends \PHPUnit_Framework_TestCase {
         $form->expects($this->any())->method('isValid')->willReturn(true);
         $form->expects($this->any())->method('getData')->willReturn($model);
 
-        $this->controller->indexAction();
+        $this->assertEquals('redirect return', $this->controller->indexAction());
     }
 
     public function testSuccessAction() {

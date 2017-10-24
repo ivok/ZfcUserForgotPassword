@@ -95,4 +95,20 @@ class ResetPassword extends AbstractActionController {
 
     }
 
+    public function getForm() {
+        return $this->form;
+    }
+
+    public function getUserMapper() {
+        return $this->userMapper;
+    }
+
+    public function getForgotPasswordService() {
+        return $this->forgotPasswordService;
+    }
+
+    public function getModuleOptions() {
+        return $this->moduleOptions;
+    }
+
 }
