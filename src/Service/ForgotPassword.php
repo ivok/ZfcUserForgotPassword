@@ -62,13 +62,13 @@ class ForgotPassword {
         return Option::fromValue(current($match), false);
     }
 
-    public function removeResets(User $user) {
+    public function removeResets($user) {
         $this->resetRepo->createQueryBuilder('reset')
         ->delete()->where('reset.user  = :user')
         ->getQuery()->execute(['user' => $user->getId()]);
     }
 
-    public function resetPassword(User $user, $nonce, $newPassword) {
+    public function resetPassword($user, $nonce, $newPassword) {
         foreach ($this->findReset($user->getId(), $nonce) as $reset) {
             $bcrypt = new Bcrypt;
             $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
